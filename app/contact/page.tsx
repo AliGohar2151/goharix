@@ -47,7 +47,7 @@ export default function ContactPage() {
       <div className="container mx-auto px-4 max-w-6xl relative z-10">
         <div className="text-center mb-20">
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-            Let's Build <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Together</span>
+            Let&apos;s Build <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Together</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
             Fill out the form below and our engineering team will get back to you within 24 hours to discuss your project requirements.
@@ -98,7 +98,7 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <h3 className="text-3xl font-bold mb-3">Message Sent!</h3>
-                  <p className="text-muted-foreground text-lg font-light">We've received your request and will be in touch shortly.</p>
+                  <p className="text-muted-foreground text-lg font-light">We&apos;ve received your request and will be in touch shortly.</p>
                   <Button className="mt-10 rounded-full h-12 px-8" onClick={() => setIsSuccess(false)} variant="outline">
                     Send another message
                   </Button>

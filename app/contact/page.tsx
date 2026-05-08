@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { submitContactMessage } from "@/lib/api";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -16,6 +17,7 @@ const formSchema = z.object({
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -29,12 +31,16 @@ export default function ContactPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log(values);
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    form.reset();
+    setSubmitError(null);
+    try {
+      await submitContactMessage(values);
+      setIsSuccess(true);
+      form.reset();
+    } catch {
+      setSubmitError("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -145,6 +151,12 @@ export default function ContactPage() {
                     />
                     {form.formState.errors.message && <p className="text-sm text-red-400 ml-1">{form.formState.errors.message.message}</p>}
                   </div>
+
+                  {submitError && (
+                    <div className="rounded-2xl border border-red-500/30 bg-red-500/10 px-5 py-4 text-sm text-red-400">
+                      {submitError}
+                    </div>
+                  )}
 
                   <Button type="submit" className="w-full rounded-2xl h-14 text-lg font-medium shadow-[0_0_30px_rgba(79,70,229,0.2)] hover:shadow-[0_0_40px_rgba(79,70,229,0.4)] transition-all group" disabled={isSubmitting}>
                     {isSubmitting ? "Sending Request..." : "Send Message"}
